@@ -46,7 +46,16 @@ RUN set -ex \
           libzip-dev vim xvfb xz-utils zip zlib1g-dev git-lfs acl \
     && rm -rf /var/lib/apt/lists/*
 
+# TW start
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html
+ENV NVIDIA_VISIBLE_DEVICES="all"
+ENV NVIDIA_DRIVER_CAPABILITIES="all"
+RUN curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list \
+    && nvidia-ctk runtime configure --runtime=docker
+# TW end
+
 ENV LC_CTYPE="C.UTF-8"
+
 
 RUN useradd codebuild-user
 
