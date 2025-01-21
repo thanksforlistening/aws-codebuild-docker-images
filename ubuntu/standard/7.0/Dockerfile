@@ -516,7 +516,8 @@ COPY dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 COPY legal/bill_of_material.txt /usr/share/doc/bill_of_material.txt
 COPY amazon-ssm-agent.json /etc/amazon/ssm/amazon-ssm-agent.json
 
-
+# https://github.com/containers/podman/issues/9377#issuecomment-950213947
+RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh"]
 
